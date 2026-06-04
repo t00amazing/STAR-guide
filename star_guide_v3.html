@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>STAR 기법 보고서 & 생기부 작성 가이드</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --font:'Noto Sans KR',sans-serif;
+  --bg:#ffffff;--bg2:#f9fafb;--bg3:#f3f4f6;
+  --border:#e5e7eb;--border2:#d1d5db;
+  --text:#09090b;--text2:#6b7280;--text3:#9ca3af;
+  --blue-bg:#eff6ff;--blue-border:#bfdbfe;--blue-text:#1d4ed8;
+  --green-bg:#f0fdf4;--green-border:#bbf7d0;--green-text:#15803d;
+  --amber-bg:#fffbeb;--amber-border:#fde68a;--amber-text:#b45309;
+  --purple-bg:#f5f3ff;--purple-border:#ddd6fe;--purple-text:#6d28d9;
+  --red-bg:#fef2f2;--red-border:#fecaca;--red-text:#b91c1c;
+  --teal-bg:#f0fdfa;--teal-border:#99f6e4;--teal-text:#0f766e;
+  --radius:6px;--radius-lg:10px;
+}
+@media(prefers-color-scheme:dark){:root{
+  --bg:#09090b;--bg2:#18181b;--bg3:#27272a;
+  --border:#27272a;--border2:#3f3f46;
+  --text:#fafafa;--text2:#a1a1aa;--text3:#71717a;
+  --blue-bg:#1e3a5f;--blue-border:#1d4ed8;--blue-text:#93c5fd;
+  --green-bg:#14532d;--green-border:#166534;--green-text:#86efac;
+  --amber-bg:#451a03;--amber-border:#92400e;--amber-text:#fcd34d;
+  --purple-bg:#2e1065;--purple-border:#5b21b6;--purple-text:#c4b5fd;
+  --red-bg:#450a0a;--red-border:#991b1b;--red-text:#fca5a5;
+  --teal-bg:#134e4a;--teal-border:#0d9488;--teal-text:#5eead4;
+}}
+body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:100vh;padding:24px 16px 48px}
+.wrap{max-width:740px;margin:0 auto}
+.page-badge{display:inline-block;font-size:10px;font-weight:600;padding:2px 8px;border-radius:20px;background:var(--blue-bg);color:var(--blue-text);border:1px solid var(--blue-border);margin-bottom:8px}
+.page-title{font-size:22px;font-weight:700;line-height:1.3;margin-bottom:4px}
+.page-desc{font-size:13px;color:var(--text2);line-height:1.6;margin-bottom:20px}
+
+/* card */
+.card{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden}
+.card-header{padding:16px 20px 12px;border-bottom:1px solid var(--border)}
+.card-body{padding:16px 20px}
+.card-title{font-size:14px;font-weight:600}
+.card-desc{font-size:12px;color:var(--text2);margin-top:2px}
+
+/* grid */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+.mini-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:12px 14px}
+.mini-title{font-size:12px;font-weight:600;margin-bottom:4px;display:flex;align-items:center;gap:6px}
+.mini-desc{font-size:12px;color:var(--text2);line-height:1.6}
+.dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+
+/* alert */
+.alert{border-radius:var(--radius);padding:10px 14px;font-size:12px;line-height:1.65;border:1px solid;margin-bottom:12px}
+.ab{background:var(--blue-bg);border-color:var(--blue-border);color:var(--blue-text)}
+.ag{background:var(--green-bg);border-color:var(--green-border);color:var(--green-text)}
+.aa{background:var(--amber-bg);border-color:var(--amber-border);color:var(--amber-text)}
+.at{background:var(--teal-bg);border-color:var(--teal-border);color:var(--teal-text)}
+.alert strong{font-weight:600}
+
+/* tabs — 단일 탭 그룹 */
+.grp-label{font-size:10px;font-weight:600;color:var(--text3);letter-spacing:.06em;text-transform:uppercase;margin-bottom:4px;padding-left:2px}
+.tabs{display:flex;gap:2px;background:var(--bg3);border-radius:var(--radius);padding:3px;flex-wrap:wrap;margin-bottom:16px}
+.tab{flex:1;min-width:64px;padding:6px 4px;font-size:11px;font-weight:500;font-family:var(--font);border:none;border-radius:4px;background:transparent;color:var(--text2);cursor:pointer;transition:all .15s;text-align:center;line-height:1.35}
+.tab.active{background:var(--bg);color:var(--text);box-shadow:0 1px 3px rgba(0,0,0,.08);border:1px solid var(--border)}
+
+/* step badge */
+.step-row{display:flex;align-items:center;gap:10px}
+.sbadge{width:32px;height:32px;border-radius:var(--radius);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0;border:1px solid}
+.bs{background:var(--blue-bg);color:var(--blue-text);border-color:var(--blue-border)}
+.bt{background:var(--green-bg);color:var(--green-text);border-color:var(--green-border)}
+.ba{background:var(--amber-bg);color:var(--amber-text);border-color:var(--amber-border)}
+.br{background:var(--purple-bg);color:var(--purple-text);border-color:var(--purple-border)}
+
+/* label row */
+.lrow{display:flex;align-items:center;gap:6px;margin:14px 0 6px}
+.ltxt{font-size:11px;font-weight:600;color:var(--text3);letter-spacing:.05em;text-transform:uppercase;white-space:nowrap}
+.lsep{flex:1;height:1px;background:var(--border)}
+
+/* example blocks */
+.good{background:var(--green-bg);border:1px solid var(--green-border);border-radius:var(--radius);padding:10px 14px;margin-bottom:8px}
+.good .etag{font-size:10px;font-weight:600;color:var(--green-text);margin-bottom:5px}
+.bad{background:var(--red-bg);border:1px solid var(--red-border);border-radius:var(--radius);padding:10px 14px;margin-bottom:8px}
+.bad .etag{font-size:10px;font-weight:600;color:var(--red-text);margin-bottom:5px}
+.etxt{font-size:12px;line-height:1.72}
+.bad .etxt{text-decoration:line-through;color:var(--text2)}
+
+/* keyword chips */
+.kwrow{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px}
+.kw{font-size:11px;font-family:var(--font);padding:3px 9px;border-radius:20px;border:1px solid var(--border2);background:var(--bg2);color:var(--text2)}
+
+/* struct box */
+.struct{background:var(--bg3);border-radius:var(--radius);padding:10px 14px;font-size:12px;color:var(--text2);line-height:1.7;margin-bottom:8px}
+.struct strong{color:var(--text);font-weight:600}
+
+/* 완성 예시 */
+.full{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px 18px;margin-bottom:12px}
+.full h4{font-size:12px;font-weight:600;color:var(--text3);margin-bottom:10px;letter-spacing:.04em;text-transform:uppercase}
+.para{font-size:13px;line-height:1.85;margin-bottom:10px}
+.para:last-child{margin-bottom:0}
+.hs{padding:1px 5px;border-radius:3px;font-weight:500}
+.hs-s{background:var(--blue-bg);color:var(--blue-text)}
+.hs-t{background:var(--green-bg);color:var(--green-text)}
+.hs-a{background:var(--amber-bg);color:var(--amber-text)}
+.hs-r{background:var(--purple-bg);color:var(--purple-text)}
+.lgd{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.ldot{width:9px;height:9px;border-radius:2px;flex-shrink:0}
+.li{display:flex;align-items:center;gap:4px;font-size:11px;color:var(--text2)}
+
+/* nav */
+.navrow{display:flex;gap:8px;justify-content:flex-end;margin-top:14px}
+.btn{font-family:var(--font);font-size:12px;font-weight:500;padding:6px 14px;border-radius:var(--radius);border:1px solid var(--border2);background:transparent;color:var(--text);cursor:pointer;transition:all .12s}
+.btn:hover{background:var(--bg3)}
+.btnp{background:var(--text);color:var(--bg);border-color:var(--text)}
+.btnp:hover{opacity:.88}
+.hidden{display:none}
+
+/* 내부 서브탭 — 보고서 / 생기부 전환 */
+.inner-tabs{display:flex;gap:4px;margin-bottom:14px}
+.itab{font-family:var(--font);font-size:11px;font-weight:500;padding:5px 14px;border-radius:20px;border:1px solid var(--border2);background:var(--bg2);color:var(--text2);cursor:pointer;transition:all .12s}
+.itab.active-rep{background:var(--blue-bg);color:var(--blue-text);border-color:var(--blue-border)}
+.itab.active-sg{background:var(--teal-bg);color:var(--teal-text);border-color:var(--teal-border)}
+.inner-panel{display:none}
+.inner-panel.show{display:block}
+
+/* 생기부 카드 */
+.sgcard{background:var(--bg);border:1px solid var(--teal-border);border-radius:var(--radius-lg);overflow:hidden;margin-bottom:12px}
+.sghead{padding:11px 16px;background:var(--teal-bg);border-bottom:1px solid var(--teal-border);display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.sgbadge{font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;border:1px solid var(--teal-border);color:var(--teal-text);background:var(--bg);white-space:nowrap}
+.sgtitle{font-size:13px;font-weight:600;color:var(--teal-text)}
+.sgbody{padding:14px 16px}
+.sgtxt{font-size:13px;line-height:1.95;word-break:keep-all}
+.sgtxt .ms{background:var(--blue-bg);color:var(--blue-text);padding:0 3px;border-radius:2px;font-weight:500}
+.sgtxt .ma{background:var(--amber-bg);color:var(--amber-text);padding:0 3px;border-radius:2px;font-weight:500}
+.sgtxt .mr{background:var(--purple-bg);color:var(--purple-text);padding:0 3px;border-radius:2px;font-weight:500}
+.sgbad{background:var(--red-bg);border:1px solid var(--red-border);border-radius:var(--radius-lg);overflow:hidden;margin-bottom:12px}
+.sgbadhead{padding:11px 16px;background:var(--red-bg);border-bottom:1px solid var(--red-border);display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.sgbadbody{padding:14px 16px}
+.sgbadtxt{font-size:13px;line-height:1.9;color:var(--text2);text-decoration:line-through;text-decoration-color:var(--red-border);word-break:keep-all}
+.charbadge{font-size:11px;color:var(--text3);margin-top:8px;text-align:right}
+
+/* 과목 선택 칩 */
+.stabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
+.stab{font-size:11px;font-weight:500;font-family:var(--font);padding:5px 12px;border-radius:20px;border:1px solid var(--border2);background:var(--bg2);color:var(--text2);cursor:pointer;transition:all .12s}
+.stab.active{background:var(--teal-bg);color:var(--teal-text);border-color:var(--teal-border)}
+.spanel{display:none}
+.spanel.on{display:block}
+
+@media(max-width:520px){
+  .grid2{grid-template-columns:1fr}
+  .tab{font-size:10px;padding:5px 3px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div style="padding:20px 0 8px">
+    <div class="page-badge">고등학생 탐구 보고서 &amp; 생기부 작성</div>
+    <div class="page-title">STAR 기법 완전 가이드</div>
+    <p class="page-desc">성장·노력 과정이 드러나는 보고서 작성법과 생활기록부 서술 예시 · 인체생리학·생명과학</p>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" onclick="go(0)">STAR 중요성</button>
+    <button class="tab" onclick="go(1)">S — 상황</button>
+    <button class="tab" onclick="go(2)">T — 목표</button>
+    <button class="tab" onclick="go(3)">A — 행동</button>
+    <button class="tab" onclick="go(4)">R — 결과</button>
+    <button class="tab" onclick="go(5)">완성 예시</button>
+  </div>
+
+  <!-- ====== 0: STAR 중요성 ====== -->
+  <div id="p0">
+    <div class="card">
+      <div class="card-header"><div class="card-title">왜 STAR 기법이 중요한가?</div><div class="card-desc">단순 지식 나열 보고서와 역량이 드러나는 보고서의 차이</div></div>
+      <div class="card-body">
+        <div class="alert ab"><strong>STAR란?</strong> Situation(상황)·Task(목표)·Action(행동)·Result(결과)의 구조로, 학생이 <strong>어떤 과정을 거쳐 성장했는지</strong>를 구체적으로 보여주는 서술 기법입니다.</div>
+        <div class="grid2">
+          <div class="mini-card"><div class="mini-title"><span class="dot" style="background:#2563eb"></span>입학사정관 관점</div><div class="mini-desc">결과보다 <strong>과정</strong>을 봅니다. "무엇을 했나"가 아니라 "어떻게 생각하고 행동했나"가 평가 핵심입니다.</div></div>
+          <div class="mini-card"><div class="mini-title"><span class="dot" style="background:#16a34a"></span>역량 가시화</div><div class="mini-desc">문제 해결력·자기주도성·비판적 사고를 추상적 선언이 아닌 <strong>구체적 사례</strong>로 증명합니다.</div></div>
+          <div class="mini-card"><div class="mini-title"><span class="dot" style="background:#d97706"></span>시행착오의 가치</div><div class="mini-desc">실패와 수정 과정이 기록되어야 진짜 노력이 보입니다. <strong>완벽한 탐구</strong>보다 <strong>성실한 탐구</strong>가 더 강합니다.</div></div>
+          <div class="mini-card"><div class="mini-title"><span class="dot" style="background:#7c3aed"></span>진정성 확보</div><div class="mini-desc">STAR 구조는 <strong>내가 실제로 한 일</strong>만 쓸 수 있기 때문에 자연스럽게 진정성이 담깁니다.</div></div>
+        </div>
+        <div class="lrow"><span class="ltxt">STAR vs 일반 보고서</span><span class="lsep"></span></div>
+        <div class="bad"><div class="etag">일반 보고서 — 역량이 보이지 않음</div><div class="etxt">혈액의 구성 성분에 대해 조사하였다. 적혈구, 백혈구, 혈소판의 기능을 알게 되었고 매우 흥미로웠다.</div></div>
+        <div class="good"><div class="etag">STAR 보고서 — 과정과 성장이 보임</div><div class="etxt">수업 중 헌혈 포스터를 보며 혈액 성분별 분리 원리에 의문이 생겼다(S). 세 성분의 물리·생화학적 분리 기제를 비교하는 것을 목표로 삼았고(T), 원심분리 원리를 이해하지 못해 물리 교사에게 질문하며 보완했다(A). 이 과정에서 생명과학과 물리의 융합적 시각이 생겼다(R).</div></div>
+        <div class="alert aa"><strong>핵심 원칙:</strong> STAR는 "잘한 것"을 나열하는 기법이 아닙니다. <strong>부족했던 점을 어떻게 극복했는지</strong>를 솔직하게 쓸수록 더 강한 보고서가 됩니다.</div>
+      </div>
+    </div>
+    <div class="navrow"><button class="btn btnp" onclick="go(1)">S — 상황 작성법 →</button></div>
+  </div>
+
+  <!-- ====== 1: S ====== -->
+  <div id="p1" class="hidden">
+    <div class="card">
+      <div class="card-header"><div class="step-row"><div class="sbadge bs">S</div><div><div class="card-title">Situation — 탐구의 배경과 상황</div><div class="card-desc">왜 이 주제에 관심을 갖게 됐는지 구체적 맥락 서술</div></div></div></div>
+      <div class="card-body">
+        <!-- 내부 탭 -->
+        <div class="inner-tabs">
+          <button class="itab active-rep" onclick="innerTab(event,'s-rep','s-sg','active-rep')">보고서 작성법</button>
+          <button class="itab" onclick="innerTab(event,'s-sg','s-rep','active-sg')">생기부 예시</button>
+        </div>
+
+        <!-- 보고서 패널 -->
+        <div id="s-rep" class="inner-panel show">
+          <div class="alert ab"><strong>핵심 질문:</strong> 수업·일상·경험 중 <strong>어떤 순간</strong>에 이 궁금증이 생겼나요? 단순한 관심이 아니라 구체적인 계기 하나를 잡아야 합니다.</div>
+          <div class="lrow"><span class="ltxt">좋은 예시</span><span class="lsep"></span></div>
+          <div class="good"><div class="etag">구체적 계기 + 의문 연결</div><div class="etxt">생명과학 수업에서 세포막의 선택적 투과성을 배우던 중, 투석 환자인 할머니의 혈액 정화 과정이 같은 원리로 작동한다는 것을 깨달았다. 기계가 세포막의 기능을 어디까지 대신할 수 있는지에 대한 의문이 이 탐구의 출발점이 되었다.</div></div>
+          <div class="good"><div class="etag">수업 장면 → 사회 문제 연결</div><div class="etxt">인체구조와 기능 수업에서 심장의 전도계를 배우던 날, 뉴스에서 응급처치 지연으로 사망한 사례를 접했다. 이 두 정보가 맞닿는 순간, 일반인의 AED 사용 현황과 생존율 간의 상관관계를 분석하고 싶다는 질문이 생겼다.</div></div>
+          <div class="lrow"><span class="ltxt">피해야 할 표현</span><span class="lsep"></span></div>
+          <div class="bad"><div class="etag">①  막연한 관심 표명</div><div class="etxt">인체생리학에 관심이 생겨서 이 주제를 탐구하게 되었다.</div></div>
+          <div class="bad"><div class="etag">② 흥미만 언급, 계기 없음</div><div class="etxt">평소에 생명과학을 좋아해서 이번 탐구를 하게 되었다.</div></div>
+          <div class="bad"><div class="etag">③ 결과를 먼저 말하는 역순 서술</div><div class="etxt">노인 의료 문제는 심각하다. 그래서 나는 이 주제에 관심을 갖게 되었다.</div></div>
+          <div class="bad"><div class="etag">④ 주제만 선언, 맥락 없음</div><div class="etxt">면역 체계에 대해 탐구하고 싶었다.</div></div>
+          <div class="lrow"><span class="ltxt">계기 소재 & 유용한 표현</span><span class="lsep"></span></div>
+          <div class="struct"><strong>수업 장면</strong> — 특정 개념을 배우다 생긴 의문<br><strong>가족·주변인</strong> — 아픈 가족을 보며 생긴 궁금증<br><strong>뉴스·기사</strong> — 의료·과학 정보와 수업 내용의 연결<br><strong>봉사·체험</strong> — 직접 경험한 장면에서 생긴 의문</div>
+          <div class="kwrow"><span class="kw">~을 배우던 중</span><span class="kw">~라는 사실을 접하고</span><span class="kw">~한 경험에서 출발하여</span><span class="kw">~이 계기가 되어</span><span class="kw">~라는 의문이 생겼다</span></div>
+        </div>
+
+        <!-- 생기부 패널 -->
+        <div id="s-sg" class="inner-panel">
+          <div class="alert at">생기부에서 S는 <strong>1~2문장, 50자 내외</strong>로 간결하게 씁니다. 배경 설명이 길어지면 역량 서술(A·R)이 밀립니다.<br><strong>문체:</strong> "~주목하여 자발적 탐구를 시작함" 처럼 3인칭 관찰자 시점으로 마무리합니다.</div>
+          <div class="sgcard">
+            <div class="sghead"><span class="sgbadge">생명과학</span><span class="sgtitle">세포막 투과성과 인공 투석 탐구</span></div>
+            <div class="sgbody"><div class="sgtxt"><span class="ms">생명과학 수업에서 세포막의 선택적 투과성을 학습하는 과정에서 인공 투석 원리와의 연관성에 주목하여 자발적 탐구를 시작함.</span></div></div>
+          </div>
+          <div class="sgcard">
+            <div class="sghead"><span class="sgbadge">인체구조와 기능</span><span class="sgtitle">심장 전도계와 부정맥 탐구</span></div>
+            <div class="sgbody"><div class="sgtxt"><span class="ms">심장의 전기 전도 시스템을 학습하던 중 할아버지의 부정맥 진단 경험과 연결하여, 정상 동리듬이 교란되는 생리학적 기전에 대한 탐구를 자발적으로 설계함.</span></div></div>
+          </div>
+          <div class="sgcard">
+            <div class="sghead"><span class="sgbadge">보건</span><span class="sgtitle">청소년 수면 부족과 면역 기능 저하</span></div>
+            <div class="sgbody"><div class="sgtxt"><span class="ms">보건 수업에서 수면의 생리적 기능을 학습하는 과정에서, 주변 학생들의 수면 부족과 잦은 감기 사이의 연관성을 수업 내용과 연결하여 탐구 주제로 발전시킴.</span></div></div>
+          </div>
+          <div class="sgcard">
+            <div class="sghead"><span class="sgbadge">생명과학 II</span><span class="sgtitle">유전자 편집 기술의 윤리적 쟁점</span></div>
+            <div class="sgbody"><div class="sgtxt"><span class="ms">크리스퍼 유전자 가위 기술을 수업에서 학습한 후, 유전질환 치료 목적의 배아 유전자 편집 허용 여부에 대한 윤리적 의문을 탐구 주제로 설정함.</span></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="navrow"><button class="btn" onclick="go(0)">← 이전</button><button class="btn btnp" onclick="go(2)">T — 목표 →</button></div>
+  </div>
+
+  <!-- ====== 2: T ====== -->
+  <div id="p2" class="hidden">
+    <div class="card">
+      <div class="card-header"><div class="step-row"><div class="sbadge bt">T</div><div><div class="card-title">Task — 스스로 설정한 탐구 목표</div><div class="card-desc">내가 무엇을 밝히려 했는지, 어떤 역량을 키우려 했는지</div></div></div></div>
+      <div class="card-body">
+        <div class="inner-tabs">
+          <button class="itab active-rep" onclick="innerTab(event,'t-rep','t-sg','active-rep')">보고서 작성법</button>
+          <button class="itab" onclick="innerTab(event,'t-sg','t-rep','active-sg')">생기부 예시</button>
+        </div>
+
+        <div id="t-rep" class="inner-panel show">
+          <div class="alert ag"><strong>핵심 질문:</strong> 단순히 "알아보겠다"가 아니라 <strong>내가 이 탐구를 통해 무엇을 해결하고 싶었는지</strong>를 구체적으로 써야 합니다.</div>
+          <div class="lrow"><span class="ltxt">목표 설정 구조</span><span class="lsep"></span></div>
+          <div class="struct"><strong>① 분석 목표</strong> — 무엇을 비교·검증할 것인가<br><strong>② 역량 목표</strong> — 어떤 사고력·태도를 기를 것인가<br><strong>③ 연결 목표</strong> — 수업 내용·진로와 어떻게 연결할 것인가</div>
+          <div class="lrow"><span class="ltxt">좋은 예시</span><span class="lsep"></span></div>
+          <div class="good"><div class="etag">3가지 목표로 세분화</div><div class="etxt">나는 세 가지 목표를 설정했다. 첫째, 사구체 여과 원리와 인공 투석막의 작동 원리를 생리학적으로 비교한다. 둘째, 현재 인공 투석의 한계를 분석한다. 셋째, 그 한계를 극복하는 최신 기술 동향을 조사한다. 이를 통해 수업 개념을 실제 의료 문제와 연결하는 통합적 시각을 기르고자 했다.</div></div>
+          <div class="good"><div class="etag">탐구 질문(RQ)으로 목표 제시</div><div class="etxt">이 탐구의 핵심 질문은 "크리스퍼 기술의 임상 적용 확대가 생명윤리 4원칙과 충돌하는 지점은 어디인가?"였다. 이를 통해 과학적 사실과 윤리적 판단을 분리해 분석하는 역량을 기르고, 향후 의료 현장에서 필요한 가치 판단 능력의 기초를 다지고자 했다.</div></div>
+          <div class="lrow"><span class="ltxt">피해야 할 표현</span><span class="lsep"></span></div>
+          <div class="bad"><div class="etag">① 목표가 모호하고 수동적</div><div class="etxt">신장과 투석에 대해 조사하고 발표하는 것이 목표였다.</div></div>
+          <div class="bad"><div class="etag">② 목표가 지식 습득에만 머무름</div><div class="etxt">면역 체계의 작동 원리를 이해하는 것이 목표였다.</div></div>
+          <div class="bad"><div class="etag">③ 진로 연결 없이 단순 나열</div><div class="etxt">심장 구조를 알아보고 부정맥의 종류를 조사하는 것을 목표로 했다.</div></div>
+          <div class="bad"><div class="etag">④ 과정이 아닌 결과를 목표로 설정</div><div class="etxt">이 탐구를 통해 좋은 보고서를 쓰는 것이 목표였다.</div></div>
+          <div class="kwrow"><span class="kw">~을 비교·분석하고자 했다</span><span class="kw">세 가지 목표를 설정했다</span><span class="kw">핵심 질문은 ~였다</span><span class="kw">~역량을 기르기 위해</span></div>
+        </div>
+
+        <div id="t-sg" class="inner-panel">
+          <div class="alert at">생기부 T는 목표를 <strong>역량 동사로</strong> 표현하는 것이 핵심입니다. "조사함" → "비교·분석함", "알아봄" → "비판적으로 검토함"으로 바꾸세요.</div>
+          <div class="sgcard">
+            <div class="sghead"><span class="sgbadge">생명과학</span><span class="sgtitle">세포막 투과성과 인공 투석 탐구</span></div>
+            <div class="sgbody"><div class="sgtxt">사구체 여과와 투석막의 차이를 <strong>비교·분석</strong>하는 것을 목표로 설정하였으나,</div></div>
+          </div>
+          <div class="sgcard">
+            <div class="sghead"><span class="sgbadge">인체구조와 기능</span><span class="sgtitle">심장 전도계와 부정맥 탐구</span></div>
+            <div class="sgbody"><div class="sgtxt">심방세동과 심실빈맥의 기전 차이를 해부생리학적으로 <strong>비교하는 목표</strong>를 설정하였으나,</div></div>
+          </div>
+          <div class="sgcard">
+            <div class="sghead"><span class="sgbadge">생명과학 II</span><span class="sgtitle">유전자 편집 윤리 쟁점</span></div>
+            <div class="sgbody"><div class="sgtxt">과학적 가능성과 생명윤리 원칙을 동시에 <strong>비판적으로 검토</strong>하는 것을 목표로 하였으나,</div></div>
+          </div>
+          <div class="alert aa" style="margin-top:4px">생기부에서 T는 독립 문장보다 "~을 목표로 설정하였으나" 처럼 A로 자연스럽게 연결되도록 씁니다.</div>
+        </div>
+      </div>
+    </div>
+    <div class="navrow"><button class="btn" onclick="go(1)">← 이전</button><button class="btn btnp" onclick="go(3)">A — 행동 →</button></div>
+  </div>
+
+  <!-- ====== 3: A ====== -->
+  <div id="p3" class="hidden">
+    <div class="card">
+      <div class="card-header"><div class="step-row"><div class="sbadge ba">A</div><div><div class="card-title">Action — 실제 노력과 시행착오 과정</div><div class="card-desc">STAR에서 가장 중요 — 막혔던 순간과 극복 과정</div></div></div></div>
+      <div class="card-body">
+        <div class="inner-tabs">
+          <button class="itab active-rep" onclick="innerTab(event,'a-rep','a-sg','active-rep')">보고서 작성법</button>
+          <button class="itab" onclick="innerTab(event,'a-sg','a-rep','active-sg')">생기부 예시</button>
+        </div>
+
+        <div id="a-rep" class="inner-panel show">
+          <div class="alert aa"><strong>핵심 원칙:</strong> "열심히 했다"는 선언이 아닌, <strong>구체적 행동과 수정 과정</strong>이 보여야 노력이 증명됩니다.</div>
+          <div class="lrow"><span class="ltxt">노력 과정 흐름</span><span class="lsep"></span></div>
+          <div class="struct"><strong>① 처음 시도</strong> → <strong>② 한계·어려움 직면</strong> → <strong>③ 방법 수정</strong> → <strong>④ 추가 노력</strong> → <strong>⑤ 결과 확인</strong></div>
+          <div class="lrow"><span class="ltxt">좋은 예시</span><span class="lsep"></span></div>
+          <div class="good"><div class="etag">시행착오 + 극복 과정이 명확</div><div class="etxt">처음에는 교과서와 인터넷 자료만으로 투석 원리를 이해하려 했으나, 삼투압과 초여과가 실제 투석막에서 동시에 작동하는 메커니즘을 파악하는 데 어려움을 겪었다. 이를 해결하기 위해 대한신장학회 학술지 논문 2편을 직접 찾아 읽었고, 생소한 의학 용어는 별도 목록으로 정리했다. 또한 의사·간호사·환자 보호자의 시각을 각각 구분해 같은 문제를 다각적으로 분석하는 방식을 시도했다.</div></div>
+          <div class="good"><div class="etag">자료 한계 인식 → 방법 전환</div><div class="etxt">처음에는 크리스퍼 기술의 긍정적 측면 위주로 자료를 수집했으나, 논증이 편향될 수 있다는 점을 스스로 인식했다. 이후 생명윤리 4원칙을 분석 틀로 채택하고, 찬성·반대 입장의 논문을 각 3편씩 균형 있게 검토하는 방식으로 방향을 수정했다. 이 과정에서 맞춤아기·장애 정체성 등 파생 쟁점까지 탐구가 확장되었다.</div></div>
+          <div class="lrow"><span class="ltxt">피해야 할 표현</span><span class="lsep"></span></div>
+          <div class="bad"><div class="etag">① 구체성 없는 노력 선언</div><div class="etxt">인터넷과 책을 찾아보며 열심히 조사했다.</div></div>
+          <div class="bad"><div class="etag">② 행동 나열만 있고 시행착오 없음</div><div class="etxt">논문 3편을 읽었고, 교과서를 복습했으며, 정리 노트를 만들었다.</div></div>
+          <div class="bad"><div class="etag">③ 막연한 어려움만 언급, 극복 과정 없음</div><div class="etxt">어려운 내용이 많았지만 열심히 이해하려고 노력했다.</div></div>
+          <div class="bad"><div class="etag">④ 결과만 쓰고 과정 생략</div><div class="etxt">다양한 자료를 종합하여 결론을 도출했다.</div></div>
+          <div class="kwrow"><span class="kw">처음에는 ~했으나</span><span class="kw">~라는 한계에 부딪혔다</span><span class="kw">이를 해결하기 위해</span><span class="kw">방향을 수정하여</span><span class="kw">추가로 ~을 시도했다</span></div>
+        </div>
+
+        <div id="a-sg" class="inner-panel">
+          <div class="alert at">생기부 A에 <strong>전체 분량의 50% 이상</strong>을 배분합니다. 시행착오 → 극복 → 추가 탐구의 흐름이 모두 들어가야 합니다.</div>
+          <div class="sgcard">
+            <div class="sghead"><span class="sgbadge">생명과학</span><span class="sgtitle">세포막 투과성과 인공 투석 탐구</span></div>
+            <div class="sgbody"><div class="sgtxt"><span class="ma">삼투압과 초여과가 동시에 작동하는 원리를 교과서만으로 이해하는 데 한계를 느끼고 대한신장학회 학술지 2편을 직접 탐색하여 읽음. 생소한 의학 용어를 정리한 개인 용어집을 제작하며 개념을 체계화하였고, 의사·간호사·환자 보호자의 시각으로 동일한 문제를 다각적으로 분석하는 방법론을 스스로 고안함.</span></div></div>
+          </div>
+          <div class="sgcard">
+            <div class="sghead"><span class="sgbadge">인체구조와 기능</span><span class="sgtitle">심장 전도계와 부정맥 탐구</span></div>
+            <div class="sgbody"><div class="sgtxt"><span class="ma">ECG 파형 해독 능력이 부족함을 스스로 인식하고 심전도 판독 입문서를 별도로 학습함. P파·QRS파·T파의 의미를 직접 정리한 도식을 제작하였고, 이를 바탕으로 부정맥 유형별 파형 특징을 비교 분석표로 완성함. 심장내과 전공의 인터뷰 영상을 추가로 참고하여 임상적 감별 기준까지 탐구를 확장함.</span></div></div>
+          </div>
+          <div class="sgcard">
+            <div class="sghead"><span class="sgbadge">보건</span><span class="sgtitle">청소년 수면 부족과 면역 기능 저하</span></div>
+            <div class="sgbody"><div class="sgtxt"><span class="ma">학교 내 직접 실험이 불가능함을 인식하고 학급 내 설문조사(30명)를 직접 설계·실시하여 수면 시간과 월평균 감기 빈도 데이터를 수집함. 두 변수 간 단순 연결의 한계를 인식하고 스트레스·식습관 등 교란변수를 추가 분석하여 보고서의 엄밀성을 스스로 보완함.</span></div></div>
+          </div>
+          <div class="sgcard">
+            <div class="sghead"><span class="sgbadge">생명과학 II</span><span class="sgtitle">유전자 편집 기술의 윤리적 쟁점</span></div>
+            <div class="sgbody"><div class="sgtxt"><span class="ma">처음에는 기술의 이점 중심으로 논지를 구성하였다가 교사 피드백을 통해 논증의 편향성을 스스로 인식함. 이후 생명윤리 4원칙(자율성·선행·악행금지·정의)을 분석 틀로 재구성하였고, 찬성·반대 논문을 각 3편씩 비교 검토하여 균형 잡힌 논증 구조를 완성함. 맞춤아기 논쟁, 장애 정체성 이슈 등 파생 쟁점까지 탐구를 자발적으로 확장함.</span></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="navrow"><button class="btn" onclick="go(2)">← 이전</button><button class="btn btnp" onclick="go(4)">R — 결과 →</button></div>
+  </div>
+
+  <!-- ====== 4: R ====== -->
+  <div id="p4" class="hidden">
+    <div class="card">
+      <div class="card-header"><div class="step-row"><div class="sbadge br">R</div><div><div class="card-title">Result — 성장한 점과 앞으로의 방향</div><div class="card-desc">지식 습득이 아닌 사고방식·관점의 변화를 서술</div></div></div></div>
+      <div class="card-body">
+        <div class="inner-tabs">
+          <button class="itab active-rep" onclick="innerTab(event,'r-rep','r-sg','active-rep')">보고서 작성법</button>
+          <button class="itab" onclick="innerTab(event,'r-sg','r-rep','active-sg')">생기부 예시</button>
+        </div>
+
+        <div id="r-rep" class="inner-panel show">
+          <div class="alert ab"><strong>핵심 원칙:</strong> "무엇을 알게 됐다"보다 <strong>"어떻게 달라졌다"</strong>가 훨씬 강합니다. 탐구 전·후의 나의 변화를 보여주세요.</div>
+          <div class="lrow"><span class="ltxt">성장 서술 구조</span><span class="lsep"></span></div>
+          <div class="struct"><strong>① 탐구 전 나의 생각</strong> → <strong>② 탐구 후 달라진 관점</strong> → <strong>③ 향후 탐구 방향 또는 진로 연결</strong></div>
+          <div class="lrow"><span class="ltxt">좋은 예시</span><span class="lsep"></span></div>
+          <div class="good"><div class="etag">관점 변화 + 진로 연결</div><div class="etxt">탐구를 시작할 때 나는 인공 투석을 단순한 기계적 대체물로 이해했다. 그러나 삼투압·확산·초여과 원리를 분석하면서, 인공 장기가 생체 기관의 기능은 모방할 수 있어도 항상성 조절 능력은 아직 완전히 재현하지 못한다는 사실을 깨달았다. 이를 계기로 바이오인공장기 분야에 대한 진로 탐색을 구체적으로 시작하게 되었다.</div></div>
+          <div class="good"><div class="etag">사고방식의 전환 서술</div><div class="etxt">탐구 전에는 크리스퍼 기술을 "가능하냐 불가능하냐"의 과학적 문제로만 바라봤다. 탐구를 마친 후에는 "허용되어야 하는가"라는 가치 판단의 문제임을 깨달았고, 같은 기술을 두고 의사·환자·사회가 서로 다른 기준으로 판단한다는 사실을 직접 확인했다. 앞으로의 탐구에서는 과학적 사실과 윤리적 판단을 항상 함께 검토하는 습관을 유지하고 싶다.</div></div>
+          <div class="lrow"><span class="ltxt">피해야 할 표현</span><span class="lsep"></span></div>
+          <div class="bad"><div class="etag">① 변화 없는 마무리 선언</div><div class="etxt">이번 탐구를 통해 신장과 투석에 대해 많이 배웠고 앞으로도 열심히 공부할 것이다.</div></div>
+          <div class="bad"><div class="etag">② 지식 나열로 마무리</div><div class="etxt">삼투압, 확산, 초여과 등의 원리를 이해하게 되었다.</div></div>
+          <div class="bad"><div class="etag">③ 감정 표현으로만 마무리</div><div class="etxt">탐구를 통해 생명과학이 더욱 흥미롭고 재미있다는 것을 느꼈다.</div></div>
+          <div class="bad"><div class="etag">④ 막연한 다짐으로 마무리</div><div class="etxt">이 탐구를 바탕으로 앞으로도 열심히 탐구하고 공부하겠다.</div></div>
+          <div class="kwrow"><span class="kw">탐구 전에는 ~라고 생각했으나</span><span class="kw">~라는 사실을 깨달았다</span><span class="kw">관점이 ~에서 ~으로 바뀌었다</span><span class="kw">이를 계기로 ~를 고려하게 됐다</span></div>
+        </div>
+
+        <div id="r-sg" class="inner-panel">
+          <div class="alert at">생기부 R은 <strong>"~을 알게 됨" 대신 "~에 대한 시각이 확장됨", "~역량이 형성됨"</strong>처럼 역량 언어로 마무리합니다. 진로 연결로 끝내면 가장 강합니다.</div>
+          <div class="sgcard">
+            <div class="sghead"><span class="sgbadge">생명과학</span><span class="sgtitle">세포막 투과성과 인공 투석 탐구</span></div>
+            <div class="sgbody"><div class="sgtxt"><span class="mr">탐구 전 인공 장기를 단순한 기능 대체물로 인식하였으나, 탐구 후 항상성 조절이라는 생체 고유의 역량은 현재 기술로 완전히 재현할 수 없다는 비판적 시각을 형성함. 생명과학 개념을 임상 현실과 연결하는 통합적 사고력이 현저히 성장하였으며, 바이오인공장기 분야에 대한 진로 탐색으로 자연스럽게 이어짐.</span></div></div>
+          </div>
+          <div class="sgcard">
+            <div class="sghead"><span class="sgbadge">인체구조와 기능</span><span class="sgtitle">심장 전도계와 부정맥 탐구</span></div>
+            <div class="sgbody"><div class="sgtxt"><span class="mr">단순 암기 중심이었던 순환계 학습 태도가 구조-기능-임상을 연결하는 통합적 이해 방식으로 전환됨. 의료 현장에서 생리학 지식이 어떻게 적용되는지를 체감하였으며, 의대 진학 후 임상 실습에서 활용할 수 있는 기초 역량을 스스로 구축하는 의미 있는 성장을 보임.</span></div></div>
+          </div>
+          <div class="sgcard">
+            <div class="sghead"><span class="sgbadge">보건</span><span class="sgtitle">청소년 수면 부족과 면역 기능 저하</span></div>
+            <div class="sgbody"><div class="sgtxt"><span class="mr">데이터를 바탕으로 학급 수면 캠페인을 직접 기획·운영하였으며, 근거 기반으로 또래 행동 변화를 이끄는 보건 교육의 의미를 체감함. 공중보건 및 역학 분야에 대한 진로 관심이 구체화되는 성장을 보임.</span></div></div>
+          </div>
+          <div class="sgcard">
+            <div class="sghead"><span class="sgbadge">생명과학 II</span><span class="sgtitle">유전자 편집 기술의 윤리적 쟁점</span></div>
+            <div class="sgbody"><div class="sgtxt"><span class="mr">과학 기술을 사실 판단이 아닌 가치 판단의 영역에서 검토하는 비판적 사고력이 크게 성장함. 의료 윤리가 임상 판단과 분리될 수 없다는 인식을 형성하였으며, 윤리적 사고력을 갖춘 의료인으로서의 진로 방향성을 구체화함.</span></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="navrow"><button class="btn" onclick="go(3)">← 이전</button><button class="btn btnp" onclick="go(5)">완성 예시 →</button></div>
+  </div>
+
+  <!-- ====== 5: 완성 예시 ====== -->
+  <div id="p5" class="hidden">
+    <div class="card">
+      <div class="card-header"><div class="card-title">완성 예시 — STAR 통합 고찰 + 생기부 전문</div><div class="card-desc">과목별 보고서 고찰과 생기부 서술 전체를 함께 확인</div></div>
+      <div class="card-body">
+        <div class="stabs">
+          <button class="stab active" onclick="showS(event,'ex-bio')">생명과학</button>
+          <button class="stab" onclick="showS(event,'ex-anatomy')">인체구조와 기능</button>
+          <button class="stab" onclick="showS(event,'ex-health')">보건</button>
+          <button class="stab" onclick="showS(event,'ex-ethics')">생명윤리</button>
+        </div>
+
+        <!-- 생명과학 완성 -->
+        <div id="ex-bio" class="spanel on">
+          <div class="lgd"><span class="li"><span class="ldot" style="background:#bfdbfe"></span>S</span><span class="li"><span class="ldot" style="background:#bbf7d0"></span>T</span><span class="li"><span class="ldot" style="background:#fde68a"></span>A</span><span class="li"><span class="ldot" style="background:#ddd6fe"></span>R</span></div>
+          <div class="full">
+            <h4>보고서 고찰 — 세포막 투과성과 인공 투석</h4>
+            <p class="para"><span class="hs hs-s">생명과학 수업에서 세포막의 선택적 투과성을 학습하던 중, 투석 환자인 할머니의 혈액 정화 과정이 같은 원리로 작동한다는 것을 깨달았다. 기계가 세포막의 기능을 어디까지 대신할 수 있는지에 대한 의문이 이 탐구의 출발점이 되었다.</span></p>
+            <p class="para"><span class="hs hs-t">나는 세 가지 목표를 설정했다. 사구체 여과 원리와 인공 투석막의 작동 원리를 생리학적으로 비교하고, 현재 인공 투석의 한계를 분석하며, 그 한계를 극복하는 최신 기술 동향을 조사하는 것이었다.</span></p>
+            <p class="para"><span class="hs hs-a">처음에는 교과서와 인터넷 자료만으로 탐구를 시작했으나, 삼투압과 초여과가 실제 투석막에서 동시에 작동하는 메커니즘을 이해하는 데 어려움을 겪었다. 이를 해결하기 위해 대한신장학회 학술지를 직접 찾아 읽었고, 생소한 의학 용어는 별도 목록으로 정리했다. 또한 의사·간호사·환자 보호자의 시각을 각각 구분해 다각적으로 분석했다.</span></p>
+            <p class="para" style="margin-bottom:0"><span class="hs hs-r">탐구를 시작할 때 나는 인공 투석을 단순한 기계적 대체물로 이해했다. 그러나 탐구를 통해 인공 장기가 생체 기관의 기능은 모방할 수 있어도 항상성 조절 능력은 아직 완전히 재현하지 못한다는 사실을 깨달았다. 이 과정에서 생명과학 개념을 의료 현실과 연결해 비판적으로 바라보는 시각이 생겼고, 바이오인공장기 분야 전공 진학을 구체적으로 고려하게 되었다.</span></p>
+          </div>
+          <div class="sgcard">
+            <div class="sghead"><span class="sgbadge">생기부 전문</span><span class="sgtitle">생명과학 II 세부능력·특기사항</span></div>
+            <div class="sgbody">
+              <div class="sgtxt"><span class="ms">생명과학 수업에서 세포막의 선택적 투과성을 학습하는 과정에서 인공 투석 원리와의 연관성에 주목하여 자발적 탐구를 시작함.</span> 사구체 여과와 투석막의 차이를 비교·분석하는 것을 목표로 설정하였으나, <span class="ma">삼투압과 초여과가 동시에 작동하는 원리를 교과서만으로 이해하는 데 한계를 느끼고 대한신장학회 학술지 2편을 직접 탐색하여 읽음. 생소한 의학 용어를 정리한 개인 용어집을 제작하며 개념을 체계화하였고, 의사·간호사·환자 보호자의 시각으로 동일한 문제를 다각적으로 분석하는 방법론을 스스로 고안함.</span> <span class="mr">탐구 전 인공 장기를 단순한 기능 대체물로 인식하였으나, 탐구 후 항상성 조절이라는 생체 고유의 역량은 현재 기술로 완전히 재현할 수 없다는 비판적 시각을 형성함. 생명과학 개념을 임상 현실과 연결하는 통합적 사고력이 현저히 성장하였으며, 바이오인공장기 분야에 대한 진로 탐색으로 자연스럽게 이어짐.</span></div>
+              <div class="charbadge">약 480자</div>
+            </div>
+          </div>
+          <div class="sgbad">
+            <div class="sgbadhead"><span class="sgbadge" style="color:var(--red-text);border-color:var(--red-border)">개선 전</span><span class="sgtitle" style="color:var(--red-text)">역량이 드러나지 않는 서술</span></div>
+            <div class="sgbadbody"><div class="sgbadtxt">세포막과 인공 투석에 대해 조사하고 보고서를 작성함. 관련 자료를 찾아보며 신장의 기능과 투석의 원리를 알게 됨. 생명과학에 관심이 많으며 성실하게 탐구에 참여함.</div></div>
+          </div>
+        </div>
+
+        <!-- 인체구조와 기능 완성 -->
+        <div id="ex-anatomy" class="spanel">
+          <div class="lgd"><span class="li"><span class="ldot" style="background:#bfdbfe"></span>S</span><span class="li"><span class="ldot" style="background:#bbf7d0"></span>T</span><span class="li"><span class="ldot" style="background:#fde68a"></span>A</span><span class="li"><span class="ldot" style="background:#ddd6fe"></span>R</span></div>
+          <div class="full">
+            <h4>보고서 고찰 — 심장 전도계와 부정맥</h4>
+            <p class="para"><span class="hs hs-s">인체구조와 기능 수업에서 심장의 전기 전도 시스템을 배우던 중, 할아버지가 부정맥으로 진단받았다는 소식을 들었다. 정상적인 동리듬이 왜 교란되는지, 그리고 의사는 어떤 기준으로 부정맥의 유형을 감별하는지 궁금해졌다.</span></p>
+            <p class="para"><span class="hs hs-t">심방세동과 심실빈맥의 기전 차이를 해부생리학적으로 비교·분석하고, 이를 통해 수업에서 배운 심장 구조 지식을 임상 현실과 연결하는 통합적 사고력을 기르는 것을 목표로 설정했다.</span></p>
+            <p class="para"><span class="hs hs-a">처음에는 두 부정맥의 심전도 파형을 비교하려 했으나 ECG 해독 능력이 부족해 차이를 인식하지 못했다. 심전도 판독 입문서를 별도로 학습하며 P파·QRS파·T파의 의미를 직접 도식화했고, 이를 바탕으로 유형별 파형 비교 분석표를 완성했다. 이후 심장내과 전공의 인터뷰 영상을 추가로 참고하여 임상적 감별 기준까지 탐구를 확장했다.</span></p>
+            <p class="para" style="margin-bottom:0"><span class="hs hs-r">탐구 전 순환계를 단순 암기 대상으로 여겼으나, 탐구 후 구조-기능-임상을 연결해 사고하는 방식으로 학습 태도가 전환되었다. 생리학 지식이 실제 의료 현장에서 어떻게 적용되는지를 직접 체감하였으며, 의대 진학 후 임상 실습에서 활용할 기초 역량을 스스로 구축하는 계기가 되었다.</span></p>
+          </div>
+          <div class="sgcard">
+            <div class="sghead"><span class="sgbadge">생기부 전문</span><span class="sgtitle">인체구조와 기능 세부능력·특기사항</span></div>
+            <div class="sgbody">
+              <div class="sgtxt"><span class="ms">심장의 전기 전도 시스템을 학습하던 중 할아버지의 부정맥 진단 경험과 연결하여, 정상 동리듬이 교란되는 생리학적 기전에 대한 탐구를 자발적으로 설계함.</span> 심방세동과 심실빈맥의 기전 차이를 해부생리학적으로 비교하는 목표를 설정하였으나, <span class="ma">ECG 파형 해독 능력이 부족함을 스스로 인식하고 심전도 판독 입문서를 별도로 학습함. P파·QRS파·T파의 의미를 직접 정리한 도식을 제작하였고, 부정맥 유형별 파형 특징을 비교 분석표로 완성함. 심장내과 전공의 인터뷰 영상을 추가 참고하여 임상적 감별 기준까지 탐구를 확장함.</span> <span class="mr">단순 암기 중심이었던 순환계 학습 태도가 구조-기능-임상을 연결하는 통합적 이해 방식으로 전환됨. 의료 현장에서 생리학 지식의 실제 적용을 체감하였으며, 의대 진학 후 임상 실습에 활용할 기초 역량을 스스로 구축하는 의미 있는 성장을 보임.</span></div>
+              <div class="charbadge">약 470자</div>
+            </div>
+          </div>
+          <div class="sgbad">
+            <div class="sgbadhead"><span class="sgbadge" style="color:var(--red-text);border-color:var(--red-border)">개선 전</span><span class="sgtitle" style="color:var(--red-text)">역량이 드러나지 않는 서술</span></div>
+            <div class="sgbadbody"><div class="sgbadtxt">심장의 구조와 기능에 대해 조사함. 부정맥의 종류를 알아보고 발표자료를 만들어 발표함. 인체에 관심이 많고 수업에 열심히 참여하는 학생임.</div></div>
+          </div>
+        </div>
+
+        <!-- 보건 완성 -->
+        <div id="ex-health" class="spanel">
+          <div class="lgd"><span class="li"><span class="ldot" style="background:#bfdbfe"></span>S</span><span class="li"><span class="ldot" style="background:#bbf7d0"></span>T</span><span class="li"><span class="ldot" style="background:#fde68a"></span>A</span><span class="li"><span class="ldot" style="background:#ddd6fe"></span>R</span></div>
+          <div class="full">
+            <h4>보고서 고찰 — 청소년 수면 부족과 면역 기능</h4>
+            <p class="para"><span class="hs hs-s">보건 수업에서 수면 중 면역세포 활성화 원리를 배우던 날, 나를 포함한 주변 친구들 대부분이 5시간 미만 수면을 취하며 감기에 자주 걸린다는 사실이 떠올랐다. 수면 시간과 면역 기능 저하 사이에 실제 상관관계가 있는지 데이터로 확인해보고 싶었다.</span></p>
+            <p class="para"><span class="hs hs-t">수면 시간과 면역 기능의 상관관계를 실증적으로 분석하고, 데이터를 근거로 또래 건강 행동 변화를 이끄는 보건 교육 역량을 기르는 것을 목표로 설정했다.</span></p>
+            <p class="para"><span class="hs hs-a">처음에는 직접 혈액 검사를 통해 NK세포 활성도를 측정하려 했으나 학교 내 실험 한계를 인식하고, 학급 설문조사(30명) 설계로 방향을 전환했다. 데이터를 수집한 후 두 변수 간 단순 연결의 한계를 인식하고 스트레스·식습관 등 교란변수를 추가 분석하여 보고서의 엄밀성을 스스로 보완했다. 이후 결과를 바탕으로 학급 수면 캠페인을 직접 기획·운영했다.</span></p>
+            <p class="para" style="margin-bottom:0"><span class="hs hs-r">단순히 "수면이 중요하다"는 인식에서 벗어나, 데이터를 근거로 또래 행동 변화를 이끄는 것이 보건 교육의 핵심임을 체감했다. 이를 계기로 공중보건 및 역학 분야에 대한 진로 관심이 구체화되었다.</span></p>
+          </div>
+          <div class="sgcard">
+            <div class="sghead"><span class="sgbadge">생기부 전문</span><span class="sgtitle">보건 세부능력·특기사항</span></div>
+            <div class="sgbody">
+              <div class="sgtxt"><span class="ms">보건 수업에서 수면의 생리적 기능을 학습하는 과정에서, 주변 학생들의 수면 부족과 잦은 감기 사이의 연관성을 수업 내용과 연결하여 탐구 주제로 발전시킴.</span> 수면 시간과 면역 기능의 상관관계를 실증적으로 분석하는 것을 목표로 하였으나, <span class="ma">학교 내 직접 실험이 불가능함을 인식하고 학급 내 설문조사(30명)를 직접 설계·실시하여 수면 시간과 월평균 감기 빈도 데이터를 수집함. 두 변수 간 단순 연결의 한계를 인식하고 스트레스·식습관 등 교란변수를 추가 분석하여 보고서의 엄밀성을 스스로 보완함.</span> <span class="mr">데이터를 바탕으로 학급 수면 캠페인을 직접 기획·운영하였으며, 근거 기반으로 또래 행동 변화를 이끄는 보건 교육의 의미를 체감함. 공중보건 및 역학 분야에 대한 진로 관심이 구체화되는 성장을 보임.</span></div>
+              <div class="charbadge">약 460자</div>
+            </div>
+          </div>
+          <div class="sgbad">
+            <div class="sgbadhead"><span class="sgbadge" style="color:var(--red-text);border-color:var(--red-border)">개선 전</span><span class="sgtitle" style="color:var(--red-text)">역량이 드러나지 않는 서술</span></div>
+            <div class="sgbadbody"><div class="sgbadtxt">수면의 중요성에 대해 조사하고 발표함. 청소년 건강에 관심이 많으며 보건 수업에 적극적으로 참여하는 학생임.</div></div>
+          </div>
+        </div>
+
+        <!-- 생명윤리 완성 -->
+        <div id="ex-ethics" class="spanel">
+          <div class="lgd"><span class="li"><span class="ldot" style="background:#bfdbfe"></span>S</span><span class="li"><span class="ldot" style="background:#bbf7d0"></span>T</span><span class="li"><span class="ldot" style="background:#fde68a"></span>A</span><span class="li"><span class="ldot" style="background:#ddd6fe"></span>R</span></div>
+          <div class="full">
+            <h4>보고서 고찰 — 유전자 편집 기술의 윤리적 쟁점</h4>
+            <p class="para"><span class="hs hs-s">생명과학 수업에서 크리스퍼 유전자 가위의 원리를 배운 후, "치료 목적이라면 배아 유전자 편집이 허용되어야 하는가?"라는 질문이 떠올랐다. 과학적 가능성과 윤리적 허용 가능성은 다르다는 생각이 이 탐구의 시작점이었다.</span></p>
+            <p class="para"><span class="hs hs-t">이 탐구의 핵심 질문은 "크리스퍼 기술의 임상 적용 확대가 생명윤리 4원칙과 충돌하는 지점은 어디인가?"였다. 과학적 사실과 윤리적 판단을 분리해 분석하는 역량을 기르고, 의료인으로서 필요한 가치 판단 능력의 기초를 다지고자 했다.</span></p>
+            <p class="para"><span class="hs hs-a">처음에는 기술의 이점 위주로 논지를 구성했으나, 교사의 피드백을 통해 논증이 편향되어 있음을 인식했다. 이후 생명윤리 4원칙(자율성·선행·악행금지·정의)을 분석 틀로 채택하고, 찬성·반대 논문을 각 3편씩 균형 있게 검토하는 방식으로 방향을 수정했다. 탐구 과정에서 맞춤아기·장애 정체성 이슈 등 파생 쟁점으로 탐구가 자발적으로 확장되었다.</span></p>
+            <p class="para" style="margin-bottom:0"><span class="hs hs-r">탐구 전에는 크리스퍼 기술을 "가능하냐 불가능하냐"의 과학적 문제로만 바라봤다. 탐구 후에는 같은 기술을 두고 의사·환자·사회가 서로 다른 기준으로 판단한다는 사실을 직접 확인했고, 과학적 사실과 윤리적 판단을 항상 함께 검토하는 시각이 형성되었다. 앞으로 의료 윤리를 갖춘 의료인으로 성장하고자 하는 진로 방향성이 더욱 명확해졌다.</span></p>
+          </div>
+          <div class="sgcard">
+            <div class="sghead"><span class="sgbadge">생기부 전문</span><span class="sgtitle">생명과학 II 세부능력·특기사항</span></div>
+            <div class="sgbody">
+              <div class="sgtxt"><span class="ms">크리스퍼 유전자 가위 기술을 수업에서 학습한 후, 유전질환 치료 목적의 배아 유전자 편집 허용 여부에 대한 윤리적 의문을 탐구 주제로 설정함.</span> 과학적 가능성과 생명윤리 원칙을 동시에 비판적으로 검토하는 것을 목표로 하였으나, <span class="ma">처음에는 기술의 이점 중심으로 논지를 구성하였다가 교사 피드백을 통해 논증의 편향성을 스스로 인식함. 이후 생명윤리 4원칙(자율성·선행·악행금지·정의)을 분석 틀로 재구성하였고, 찬성·반대 논문을 각 3편씩 비교 검토하여 균형 잡힌 논증 구조를 완성함. 맞춤아기 논쟁, 장애 정체성 이슈 등 파생 쟁점까지 탐구를 자발적으로 확장함.</span> <span class="mr">과학 기술을 사실 판단이 아닌 가치 판단의 영역에서 검토하는 비판적 사고력이 크게 성장함. 의료 윤리가 임상 판단과 분리될 수 없다는 인식을 형성하였으며, 윤리적 사고력을 갖춘 의료인으로서의 진로 방향성을 구체화함.</span></div>
+              <div class="charbadge">약 480자</div>
+            </div>
+          </div>
+          <div class="sgbad">
+            <div class="sgbadhead"><span class="sgbadge" style="color:var(--red-text);border-color:var(--red-border)">개선 전</span><span class="sgtitle" style="color:var(--red-text)">역량이 드러나지 않는 서술</span></div>
+            <div class="sgbadbody"><div class="sgbadtxt">유전자 편집 기술의 윤리적 문제에 대해 조사하고 토론에 참여함. 생명윤리에 관심이 많으며 발표를 잘하는 학생임.</div></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <div class="navrow"><button class="btn" onclick="go(4)">← 이전</button></div>
+  </div>
+
+</div>
+<script>
+function go(i){
+  for(var j=0;j<6;j++){var p=document.getElementById('p'+j);if(p)p.classList.toggle('hidden',j!==i);}
+  document.querySelectorAll('.tab').forEach(function(b,idx){b.classList.toggle('active',idx===i);});
+}
+function innerTab(e,showId,hideId,activeClass){
+  document.getElementById(showId).classList.add('show');
+  document.getElementById(hideId).classList.remove('show');
+  var btns=e.target.parentElement.querySelectorAll('.itab');
+  btns.forEach(function(b){b.classList.remove('active-rep','active-sg');});
+  e.target.classList.add(activeClass);
+}
+function showS(e,id){
+  document.querySelectorAll('.spanel').forEach(function(p){p.classList.remove('on');});
+  document.querySelectorAll('.stab').forEach(function(b){b.classList.remove('active');});
+  var panel=document.getElementById(id);if(panel)panel.classList.add('on');
+  e.target.classList.add('active');
+}
+</script>
+</body>
+</html>
